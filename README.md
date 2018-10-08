@@ -1,2 +1,2 @@
 # plotGODESeq
-code to integrate differential gene expression and gene ontology over-representation in a 2D plot
+R function to integrate differential gene expression and Gene Ontology over-representation in a 2D plot. Every aspect of the plot can be configured.
