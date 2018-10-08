@@ -21,6 +21,9 @@ plotGODESeq <- function(goenrich,
                         maxFDR,
                         collapse,
                         color,
+                        lowCol,
+                        midCol,
+                        highCol,
                         scale,
                         label,
                         maxFDRLab,
@@ -124,6 +127,21 @@ plotGODESeq <- function(goenrich,
   if( missing(collapse) ){ collapse = 1  
     cat("No maximum GO term collapsing level is provided. Default of 1 will be used, i.e. only terms with 100% gene overlap will be collapsed in one bubble.\n")
   } 
+  
+###
+# lowCol: color of the bubbles for the low "color" values
+# valid values for colors, i.e. "blue" 
+  if( missing(lowCol) ){ lowCol = "darkcyan"}
+
+###
+# midCol: color of the bubbles for the medium "color" values
+# valid values for colors, i.e. "blue" 
+  if( missing(lowCol) ){ lowCol = "yellow"}
+
+###
+# highCol: color of the bubbles for the high "color" values
+# valid values for colors, i.e. "blue" 
+  if( missing(lowCol) ){ lowCol = "darkred"}
   
 ###
 # scale: scale the radius the bubbles. The bigger, the smaller the radius
@@ -265,9 +283,9 @@ if ( missing(wrap) ){ wrap = 15 }
   ####### Prepare colours
   
   # build the low palette
-  rcPallow <- colorRampPalette(c("darkcyan","yellow"))
+  rcPallow <- colorRampPalette(c(lowCol,midCol))
   # build the high palette
-  rcPalhigh <- colorRampPalette(c("yellow","darkred"))
+  rcPalhigh <- colorRampPalette(c(midCol,highCol))
   
   ####### Colors based on zscores
   if (color == "zscore"){
@@ -353,7 +371,7 @@ if ( missing(wrap) ){ wrap = 15 }
   ###### Create the Legend 
   
   # Create a color ramp
-  rbPal <- colorRampPalette(c("darkred","yellow","darkcyan"))
+  rbPal <- colorRampPalette(c(lowCol,midCol,highCol))
   legcol <- rbPal(50)
   
   #points for the gradient legend
