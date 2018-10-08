@@ -1,4 +1,5 @@
-# plotGODESeq
+#                            plotGODESeq
+#
 # Copyright (C) 2018 Nicolas Le Novère
 # 
 # This program is free software: you can redistribute it and/or modify
@@ -14,7 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# This function aims at integrating Gene Ontology overepresentation analysis and differential gene expression.
+# This function aims at integrating Gene Ontology overepresentation 
+# analysis and differential gene expression.
+# The initial idea came from the function GOBubble in the package 
+# GOplot by Wencke Walter <http://wencke.github.io/>
 
 plotGODESeq <- function(goenrich,
                         deseq, 
