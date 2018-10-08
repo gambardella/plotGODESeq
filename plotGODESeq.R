@@ -400,7 +400,7 @@ if ( missing(wrap) ){ wrap = 15 }
           bg = "black",
           add = TRUE
   )
-  text(xmin+0.5+leghoffset+0.125+sqrt(1/pi)/2,ymin+3.5+legvoffset,label="Enrich = 1",pos=4)
+  text(xmin+0.5+leghoffset+0.125+sqrt(1/pi)/scale,ymin+3.5+legvoffset,label="Enrich = 1",pos=4)
     
   # Select the bubbles that will be labeled. 
   # We only select adj p-value less than maxFDRLab and zscore inferieur to -minZscoreLab or superieur to minZscoreLab
