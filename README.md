@@ -22,3 +22,11 @@ plotGODESeq(goenrich_data,
             minZscoreLab = 1,
             wrap = 10
 ```
+
+The Gene Ontology data must be dataframe containin at least the columns: ID, description, Enrich, FDR, and genes, as in:
+
+| ID        | description | Enrich | FDR | genes |
+|:---------:|:-------------:|:-----:|
+| GO:0000123| interesting process | 1.58 | DRD2;ADORA2B | 
+
+
