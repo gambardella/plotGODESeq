@@ -27,6 +27,6 @@ The Gene Ontology data must be dataframe containin at least the columns: ID, des
 
 | ID        | description | Enrich | FDR | genes |
 | --------- | ------------- | ----- | --- | --- |
-| GO:0000123| interesting process | 1.58 | DRD2;ADORA2B | 
+| GO:0000123| interesting process | 1.58 | 1e-05 | DRD2;ADORA2B | 
 
 
