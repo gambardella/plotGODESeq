@@ -127,9 +127,9 @@ plotGODESeq <- function(goenrich,
   }  
 
 ###
-# collapse: value between 0 and 1, representing the proportion of genes in common for two GO terms to be merged. 
-  if( missing(collapse) ){ collapse = 1  
-    cat("No maximum GO term collapsing level is provided. Default of 1 will be used, i.e. only terms with 100% gene overlap will be collapsed in one bubble.\n")
+# collapse: either FALSE or value between 0 and 1, representing the proportion of genes in common for two GO terms to be merged. 
+  if( missing(collapse) ){ collapse = FALSE  
+    cat("No maximum GO term collapsing level is provided. No collapse will be performed.\n")
   } 
   
 ###
@@ -199,7 +199,7 @@ if ( missing(wrap) ){ wrap = 15 }
   
   library(GOplot)   # necessary for the function collapsing GO terms that overlap
   library(tidyr)    # necessary for the function separate_rows
-  library(SDMTools) # necessary for the function legen.gradient
+  library(SDMTools) # necessary for the function legend.gradient
   
   ##############################
   ## Preparation of the data
@@ -207,21 +207,21 @@ if ( missing(wrap) ){ wrap = 15 }
   
   # Replace the p-values and FDR that are zero so that they can be plotted on log-scale.
 
-  # PVALUE IS NOT USED AT THE MOMENT. IF USED IN THE FUTURE, MOVE THE TEST TO INPUT PARSING ABOVE
-  if ("PValue" %in% colnames(goenrich)){
-    # Get the minimal non-0 p-value
-    minpval <- min(goenrich[goenrich$PValue>0,]$PValue)
-    # replace the 0 p-values by a tenth of the minimal ones
-    goenrich[goenrich$PValue==0,]$PValue <- minpval/10
-  }
-
-  # Get the minimal non-0 FDR
+#  # PVALUE IS NOT USED AT THE MOMENT. KEEP FOR FUTURE USE
+#  minpval <- min(goenrich[goenrich$PValue>0,]$PValue)
+#  # replace the 0 FDR by a tenth of the minimal ones
+#  goenrich$PValue[which(goenrich$PValue==0)] <- minpval/10
+  
+  print(paste("Nb of GO terms in input file): ",nrow(goenrich)))
+  
+    # Get the minimal non-0 FDR
   minfdr <- min(goenrich[goenrich$FDR>0,]$FDR)
   # replace the 0 FDR by a tenth of the minimal ones
-  goenrich[goenrich$FDR==0,]$FDR <- minfdr/10
+  goenrich$FDR[which(goenrich$FDR==0)] <- minfdr/10
   
   # Prepare a subset of the GO enrichment. NB always use this subset, even if it is 100% of the entire results.
   goenrich_subset <- subset(goenrich, goenrich$FDR < maxFDR)
+  print(paste("Nb of GO terms after FDR threshold): ",nrow(goenrich_subset)))
   
   ### Compute zscores, i.e. relative over or underexpression of Genes annotated by each term.
   
@@ -273,16 +273,17 @@ if ( missing(wrap) ){ wrap = 15 }
   # This is necessary for collapsing terms using the package GOPlot
   # separate_rows is a function of the package tidyr
   goenrich_expand <- separate_rows(goenrich_subset, genes)  
-  print(paste("Nb of GO terms in input file): ",nrow(goenrich)))
-  print(paste("Nb of GO terms after FDR threshold): ",nrow(goenrich_subset)))
 
   ##############################
   ## Plot the data
   ##############################
   
   ## Use GOPlot package to merge together terms annotating similar genesets
-  enrich_red <- reduce_overlap(goenrich_expand, overlap = collapse)
-  print(paste("Nb of GO terms after collapsing): ",nrow(enrich_red)))
+  if ( !(collapse == FALSE) ){
+    enrich_red <- reduce_overlap(goenrich_expand, overlap = collapse)
+    print(paste("Nb of GO terms after collapsing): ",nrow(enrich_red)))
+  } else { enrich_red = goenrich_subset } # goenrich_expand is only useful is we collapse.
+  
   
   ####### Prepare colours
   
@@ -290,6 +291,8 @@ if ( missing(wrap) ){ wrap = 15 }
   rcPallow <- colorRampPalette(c(lowCol,midCol))
   # build the high palette
   rcPalhigh <- colorRampPalette(c(midCol,highCol))
+  
+  # FIXME: DEAL WITH THE CASE WHEN ALL THE ZSCORE OR L2FC ARE EITHER POSITIVE OR NEGATIVE
   
   ####### Colors based on zscores
   if (color == "zscore"){
