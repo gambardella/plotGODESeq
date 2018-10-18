@@ -148,9 +148,9 @@ plotGODESeq <- function(goenrich,
   if( missing(lowCol) ){ lowCol = "darkred"}
   
 ###
-# scale: scale the radius the bubbles. The bigger, the smaller the radius
+# scale: scale the radius the bubbles.
 # numeric 
-  if( missing(scale) ){ scale = 2 }
+  if( missing(scale) ){ scale = 0.5 }
   
 ###
 # maxFDRLab: minimum Padj value at which bubbles are labelled  
@@ -368,7 +368,7 @@ if ( missing(wrap) ){ wrap = 15 }
   
   symbols(enrich_red$zscore, 
           -log10(enrich_red$adj_pval),
-          circle = sqrt(enrich_red$Enrich/pi)/scale, # gives the ratius in fonction of enrichment. 
+          circle = sqrt(enrich_red$Enrich/pi)*scale, # gives the ratius in fonction of enrichment. 
           inches=FALSE,
           fg="white",
           bg = datcol$colour,
@@ -397,13 +397,13 @@ if ( missing(wrap) ){ wrap = 15 }
   # NB: I have to feed a vector of 1 element for the size to work. Don't ask. Symbols is crazy
   symbols(c(xmin+0.5+leghoffset+0.125), # move by 0.125 because gradient is 0.25 large
           c(ymin+3.5+legvoffset),
-          circle = c(sqrt(1/pi))/scale, # gives the ratius in fonction of enrichment. 
+          circle = c(sqrt(1/pi))*scale, # gives the ratius in fonction of enrichment. 
           inches=FALSE,
           fg="white",
           bg = "black",
           add = TRUE
   )
-  text(xmin+0.5+leghoffset+0.125+sqrt(1/pi)/scale,ymin+3.5+legvoffset,label="Enrich = 1",pos=4)
+  text(xmin+0.5+leghoffset+0.125+sqrt(1/pi)*scale,ymin+3.5+legvoffset,label="Enrich = 1",pos=4)
     
   # Select the bubbles that will be labeled. 
   # We only select adj p-value less than maxFDRLab and zscore inferieur to -minZscoreLab or superieur to minZscoreLab
