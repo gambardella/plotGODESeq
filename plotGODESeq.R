@@ -389,10 +389,12 @@ if ( missing(wrap) ){ wrap = 15 }
   
   #create the gradient legend
   
+  if (color == "l2fc") {legend.title = "mean DESeq2 L2FC"} 
+  else {legend.title = "Zscore"}
   legend.gradient(pnts,
                   legcol,
                   c(sprintf("%.2f",min(enrich_red$meanL2FC)),sprintf("%.2f",max(enrich_red$meanL2FC))), 
-                  title = "mean DESeq2 L2FC")
+                  title = legend.title)
   
   # Legend for enrichment: black circle of surface "1". 
   # NB: I have to feed a vector of 1 element for the size to work. Don't ask. Symbols is crazy
