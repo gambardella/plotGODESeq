@@ -389,7 +389,7 @@ if ( missing(wrap) ){ wrap = 15 }
   
   #create the gradient legend
   
-  if (color == "l2fc") {legend.title = "mean DESeq2 L2FC"} 
+  if (color == "l2fc") {legend.title = "mean Expr L2FC"} 
   else {legend.title = "Zscore"}
   legend.gradient(pnts,
                   legcol,
