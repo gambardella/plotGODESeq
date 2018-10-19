@@ -150,7 +150,7 @@ plotGODESeq <- function(goenrich,
 ###
 # scale: scale the radius the bubbles.
 # numeric 
-  if( missing(scale) ){ scale = 0.5 }
+  if( missing(scale) ){ scale = 1 }
   
 ###
 # maxFDRLab: maximum Padj value at which bubbles are labelled  
