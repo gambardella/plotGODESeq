@@ -145,7 +145,7 @@ plotGODESeq <- function(goenrich,
 ###
 # highCol: color of the bubbles for the high "color" values
 # valid values for colors, i.e. "blue", "#aabbcc" etc.
-  if( missing(lowCol) ){ lowCol = "darkred"}
+  if( missing(highCol) ){ highCol = "darkred"}
   
 ###
 # scale: scale the radius the bubbles.
