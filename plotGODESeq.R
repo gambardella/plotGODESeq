@@ -123,7 +123,7 @@ plotGODESeq <- function(goenrich,
 # numeric
   if( missing(maxFDR) ){ 
     maxFDR = 0.05 
-    cat("No maximum FDR provided for plotting. Default of 0.05 will be used.\n")
+    cat(paste("No maximum FDR provided for plotting. Default of", maxFDR,"will be used.\n"))
   }  
 
 ###
@@ -134,17 +134,17 @@ plotGODESeq <- function(goenrich,
   
 ###
 # lowCol: color of the bubbles for the low "color" values
-# valid values for colors, i.e. "blue" 
+# valid values for colors, i.e. "blue", "#aabbcc" etc.
   if( missing(lowCol) ){ lowCol = "darkcyan"}
 
 ###
 # midCol: color of the bubbles for the medium "color" values
-# valid values for colors, i.e. "blue" 
-  if( missing(lowCol) ){ lowCol = "yellow"}
+# valid values for colors, i.e. "blue", "#aabbcc" etc.
+  if( missing(midCol) ){ midCol = "yellow"}
 
 ###
 # highCol: color of the bubbles for the high "color" values
-# valid values for colors, i.e. "blue" 
+# valid values for colors, i.e. "blue", "#aabbcc" etc.
   if( missing(lowCol) ){ lowCol = "darkred"}
   
 ###
@@ -153,10 +153,10 @@ plotGODESeq <- function(goenrich,
   if( missing(scale) ){ scale = 0.5 }
   
 ###
-# maxFDRLab: minimum Padj value at which bubbles are labelled  
+# maxFDRLab: maximum Padj value at which bubbles are labelled  
 # numeric
   if( missing(maxFDRLab) ){ 
-    maxFDRLab = 0.05
+    maxFDRLab = maxFDR
     cat(paste("No maximum FDR provided for labelling. Default of",maxFDRLab,"will be used.\n"))
     }
 
@@ -366,6 +366,7 @@ if ( missing(wrap) ){ wrap = 15 }
   
   ###### Plot!
   
+  # FIXME: PROVIDE AN OPTION TO USE THE RADIUS INSTEAD OF SURFACE FOR THE ENRICHMENT
   symbols(enrich_red$zscore, 
           -log10(enrich_red$adj_pval),
           circle = sqrt(enrich_red$Enrich/pi)*scale, # gives the ratius in fonction of enrichment. 
