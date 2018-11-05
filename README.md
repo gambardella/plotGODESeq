@@ -37,8 +37,6 @@ Any other column can be present. It will not be taken into account. The order of
 
 The differential expression data must be a dataframe which rownames are the gene symbols, from the same namespace as the `genes` column of the GO enrichment data above. In addition, one column must be named `log2FoldChange`, containing the quantitative difference of expression between two conditions. Any other column can be present. It will not be taken into account. The order of columns does not matter.
 
-**WARNING:** The current code does not work if the color scheme chosen for the bubbles is based on variable, `l2fc` or `zscore`, that do not contain negative **and** positive values. Sometimes, the "collapsing" can cause this situation, if there is an initial unbalance between zscores and/or l2fc. 
-
 ## Configuration arguments
 
 ### *maxFDR* 
