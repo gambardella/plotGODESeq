@@ -27,7 +27,7 @@ plotGODESeq(goenrich_data,
 
 ## Input
 
-The Gene Ontology enrichment data must be dataframe containing at least the columns: `ID` - the identifiers of the GO term, `description`- the description of the term, `Enrich` - the ratio of observed genes over expected genes annotated by the GO term, `FDR` - the False Discovery Rate (a.k.a. adjusted p-value), computed e.g. with the Benjamini-Hochberg correction, and `genes` - the list of observed genes annotated by the GO term, as in:
+The Gene Ontology enrichment data must be a dataframe containing at least the columns: `ID` - the identifiers of the GO term, `description`- the description of the term, `Enrich` - the ratio of observed genes over expected genes annotated by the GO term, `FDR` - the False Discovery Rate (a.k.a. adjusted p-value), computed e.g. with the Benjamini-Hochberg correction, and `genes` - the list of observed genes annotated by the GO term, as in:
 
 | ID        | description | Enrich | FDR | genes |
 | --------- | ------------- | ----- | --- | --- |

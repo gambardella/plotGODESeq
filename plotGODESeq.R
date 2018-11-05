@@ -212,8 +212,12 @@ if ( missing(wrap) ){ wrap = 15 }
 #  # replace the 0 FDR by a tenth of the minimal ones
 #  goenrich$PValue[which(goenrich$PValue==0)] <- minpval/10
   
-  print(paste("Nb of GO terms in input file): ",nrow(goenrich)))
-  
+  if (nrow(goenrich) == 0){
+    stop("No GO term in the enrichment file.")
+  } else {
+    print(paste("Nb of GO terms in input file: ",nrow(goenrich)))
+  }
+
     # Get the minimal non-0 FDR
   minfdr <- min(goenrich[goenrich$FDR>0,]$FDR)
   # replace the 0 FDR by a tenth of the minimal ones
@@ -221,7 +225,11 @@ if ( missing(wrap) ){ wrap = 15 }
   
   # Prepare a subset of the GO enrichment. NB always use this subset, even if it is 100% of the entire results.
   goenrich_subset <- subset(goenrich, goenrich$FDR < maxFDR)
-  print(paste("Nb of GO terms after FDR threshold): ",nrow(goenrich_subset)))
+  if (nrow(goenrich_subset) == 0){
+    stop("No remaining GO terms in the enrichment file. Try increasing the value of the maxFDR argument.")
+  } else {
+    print(paste("Nb of GO terms after FDR threshold: ",nrow(goenrich_subset)))
+  }
   
   ### Compute zscores, i.e. relative over or underexpression of Genes annotated by each term.
   
@@ -299,10 +307,18 @@ if ( missing(wrap) ){ wrap = 15 }
     print(paste("Chosen color for the bubble is: ",color))
     
     # Extract zscores under 0
-    downreg <- enrich_red[enrich_red$zscore < 0,]$zscore
+    if ( (nrow(enrich_red[enrich_red$zscore < 0,]) == 0) ){
+      stop("No negative zscore, no plot can be generated for the moment.")
+    } else {
+      downreg <- enrich_red[enrich_red$zscore < 0,]$zscore
+    }
     
     # Extract zscores above 0
-    upreg <- enrich_red[enrich_red$zscore >= 0,]$zscore
+    if ( (nrow(enrich_red[enrich_red$zscore > 0,]) == 0) ){
+      stop("No strictly positive zscore, no plot can be generated for the moment.")
+    } else {
+      upreg <- enrich_red[enrich_red$zscore >= 0,]$zscore
+    }
     
     # Compute the number of breaks
     maxzscore <- max(abs(downreg),abs(upreg))
@@ -328,10 +344,18 @@ if ( missing(wrap) ){ wrap = 15 }
     print(paste("Chosen color for the bubble is: ",color))
 
     # Extract L2FC under 0
-    downreg <- enrich_red[enrich_red$meanL2FC < 0,]$meanL2FC
+    if ( (nrow(enrich_red[enrich_red$meanL2FC < 0,]) == 0) ){
+      stop("No negative meanL2FC, no plot can be generated for the moment.")
+    } else {
+      downreg <- enrich_red[enrich_red$meanL2FC < 0,]$meanL2FC
+    }
     
     # Extract L2FC above 0
-    upreg <- enrich_red[enrich_red$meanL2FC >= 0,]$meanL2FC
+    if ( (nrow(enrich_red[enrich_red$meanL2FC > 0,]) == 0) ){
+      stop("No strictly positive zscore, no plot can be generated for the moment.")
+    } else {
+      upreg <- enrich_red[enrich_red$meanL2FC >= 0,]$meanL2FC
+    }
     
     # Compute the number of breaks
     maxl2fc <- max(abs(downreg),abs(upreg))
