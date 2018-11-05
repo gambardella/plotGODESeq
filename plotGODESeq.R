@@ -305,54 +305,67 @@ if ( missing(wrap) ){ wrap = 15 }
   ####### Colors based on zscores
   if (color == "zscore"){
     print(paste("Chosen color for the bubble is: ",color))
-    
-    # Extract zscores under 0
-    if ( (nrow(enrich_red[enrich_red$zscore < 0,]) == 0) ){
-      stop("No negative zscore, no plot can be generated for the moment.")
-    } else {
-      downreg <- enrich_red[enrich_red$zscore < 0,]$zscore
-    }
-    
-    # Extract zscores above 0
-    if ( (nrow(enrich_red[enrich_red$zscore > 0,]) == 0) ){
-      stop("No strictly positive zscore, no plot can be generated for the moment.")
-    } else {
-      upreg <- enrich_red[enrich_red$zscore >= 0,]$zscore
-    }
-    
-    # Compute the number of breaks
-    maxzscore <- max(abs(downreg),abs(upreg))
-    
-    # I want 10 colors max on each side
-    ndownbreak = ceiling(10* max(abs(downreg))/maxzscore)
-    nupbreak = ceiling(10* max(abs(upreg))/maxzscore  )
-    
-    # Build color arrays using the zscore. Use ceiling and floor to ensure the right number in total
-    datcollow <- rcPallow(ndownbreak)[as.numeric(cut(downreg,breaks = ndownbreak))]
-    datcolhigh <- rcPalhigh(nupbreak)[as.numeric(cut(upreg,breaks = nupbreak))]
-    
+
     # build df to contain all zscores and colors
     datcol <- data.frame(zscore = enrich_red$zscore,colour=NA)
     
-    # Populate the colours
-    datcol[datcol$zscore < 0,]$colour <- datcollow
-    datcol[datcol$zscore >= 0,]$colour <- datcolhigh
+    # Extract zscores under 0
+    if ( (nrow(enrich_red[enrich_red$zscore < 0,]) == 0) ){
+      cat("No negative zscore, only positive color scale is used.\n")
+      downreg <- 0
+    } else {
+      downreg <- enrich_red[enrich_red$zscore < 0,]$zscore
+    }
+
+    # Extract zscores above 0
+    if ( (nrow(enrich_red[enrich_red$zscore > 0,]) == 0) ){
+      cat("No strictly positive zscore, only negative color scale is used.\n")
+      upreg <- 0
+    } else {
+      upreg <- enrich_red[enrich_red$zscore >= 0,]$zscore
+    }  
+    
+    # Compute the number of breaks
+    maxzscore <- max(abs(downreg),abs(upreg))
+
+    if ( !(nrow(enrich_red[enrich_red$zscore < 0,]) == 0) ){
+    # I want 10 colors max on each side
+      ndownbreak = ceiling(10* max(abs(downreg))/maxzscore)
+      # Build negative part of color arrays using the zscore.
+      datcollow <- rcPallow(ndownbreak)[as.numeric(cut(downreg,breaks = ndownbreak))]
+      # Populate the colours
+      datcol[datcol$zscore < 0,]$colour <- datcollow
+    }
+    
+    if ( !(nrow(enrich_red[enrich_red$zscore > 0,]) == 0) ){
+      # I want 10 colors max on each side
+      nupbreak = ceiling(10* max(abs(upreg))/maxzscore  )
+      # Build positive part of color arrays using the zscore.
+      datcolhigh <- rcPalhigh(nupbreak)[as.numeric(cut(upreg,breaks = nupbreak))]
+      # Populate the colours
+      datcol[datcol$zscore >= 0,]$colour <- datcolhigh
+    }
   }
   
   ####### Colors based on L2FC
   if (color == "l2fc"){
     print(paste("Chosen color for the bubble is: ",color))
 
+    # build df to contain all L2FC and colors
+    datcol <- data.frame(L2FC = enrich_red$meanL2FC,colour=NA)
+    
     # Extract L2FC under 0
     if ( (nrow(enrich_red[enrich_red$meanL2FC < 0,]) == 0) ){
-      stop("No negative meanL2FC, no plot can be generated for the moment.")
+      cat("No negative meanL2FC, only positive color scale is used.\n")
+      downreg <- 0
     } else {
       downreg <- enrich_red[enrich_red$meanL2FC < 0,]$meanL2FC
     }
     
     # Extract L2FC above 0
     if ( (nrow(enrich_red[enrich_red$meanL2FC > 0,]) == 0) ){
-      stop("No strictly positive zscore, no plot can be generated for the moment.")
+      cat("No strictly positive L2FC, only negative color scale is used.\n")
+      upreg <- 0
     } else {
       upreg <- enrich_red[enrich_red$meanL2FC >= 0,]$meanL2FC
     }
@@ -360,20 +373,24 @@ if ( missing(wrap) ){ wrap = 15 }
     # Compute the number of breaks
     maxl2fc <- max(abs(downreg),abs(upreg))
     
-    # I want 10 colors max on each side
-    ndownbreak = ceiling(20* max(abs(downreg))/maxl2fc)
-    nupbreak = ceiling(20* max(abs(upreg))/maxl2fc  )
+    if ( !(nrow(enrich_red[enrich_red$meanL2FC < 0,]) == 0) ){
+      # I want 10 colors max on each side
+      ndownbreak = ceiling(10* max(abs(downreg))/maxl2fc)
+      # Build negative part of color arrays using the L2FC
+      datcollow <- rcPallow(ndownbreak)[as.numeric(cut(downreg,breaks = ndownbreak))]
+      # Populate the colours
+      datcol[datcol$L2FC < 0,]$colour <- datcollow
+    }
     
-    # Build color arrays using the L2FC. Use ceiling and floor to ensure the right number in total
-    datcollow <- rcPallow(ndownbreak)[as.numeric(cut(downreg,breaks = ndownbreak))]
-    datcolhigh <- rcPalhigh(nupbreak)[as.numeric(cut(upreg,breaks = nupbreak))]
+    if ( !(nrow(enrich_red[enrich_red$meanL2FC > 0,]) == 0) ){
+      # I want 10 colors max on each side
+      nupbreak = ceiling(10* max(abs(upreg))/maxl2fc  )
+      # Build positive part of color arrays using the zscore.
+      datcolhigh <- rcPalhigh(nupbreak)[as.numeric(cut(upreg,breaks = nupbreak))]
+      # Populate the colours
+      datcol[datcol$L2FC >= 0,]$colour <- datcolhigh
+    }
     
-    # build df to contain all L2FC and colors
-    datcol <- data.frame(L2FC = enrich_red$meanL2FC,colour=NA)
-    
-    # Populate the colours
-    datcol[datcol$L2FC < 0,]$colour <- datcollow
-    datcol[datcol$L2FC >= 0,]$colour <- datcolhigh
   }
   
   ####### create width and height of plot
@@ -413,13 +430,18 @@ if ( missing(wrap) ){ wrap = 15 }
   
   #create the gradient legend
   
-  if (color == "l2fc") {legend.title = "mean Expr L2FC"} 
-  else {legend.title = "Zscore"}
-  legend.gradient(pnts,
+  if (color == "l2fc") {
+    legend.gradient(pnts,
+                    legcol,
+                    c(sprintf("%.2f",min(enrich_red$meanL2FC)),sprintf("%.2f",max(enrich_red$meanL2FC))), 
+                    title = "mean Expr L2FC")
+    } else {
+    legend.gradient(pnts,
                   legcol,
-                  c(sprintf("%.2f",min(enrich_red$meanL2FC)),sprintf("%.2f",max(enrich_red$meanL2FC))), 
-                  title = legend.title)
-  
+                  c(sprintf("%.2f",min(enrich_red$zscore)),sprintf("%.2f",max(enrich_red$zscore))), 
+                  title = "Zscore")
+    }
+
   # Legend for enrichment: black circle of surface "1". 
   # NB: I have to feed a vector of 1 element for the size to work. Don't ask. Symbols is crazy
   symbols(c(xmin+0.5+leghoffset+0.125), # move by 0.125 because gradient is 0.25 large
