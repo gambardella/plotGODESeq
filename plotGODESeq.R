@@ -410,7 +410,7 @@ if ( missing(wrap) ){ wrap = 15 }
   # FIXME: PROVIDE AN OPTION TO USE THE RADIUS INSTEAD OF SURFACE FOR THE ENRICHMENT
   symbols(enrich_red$zscore, 
           -log10(enrich_red$adj_pval),
-          circle = sqrt(enrich_red$Enrich/pi)*scale, # gives the ratius in fonction of enrichment. 
+          circle = sqrt(enrich_red$Enrich/pi)*scale, # gives the surface in fonction of enrichment. 
           inches=FALSE,
           fg="white",
           bg = datcol$colour,
@@ -446,7 +446,7 @@ if ( missing(wrap) ){ wrap = 15 }
   # NB: I have to feed a vector of 1 element for the size to work. Don't ask. Symbols is crazy
   symbols(c(xmin+0.5+leghoffset+0.125), # move by 0.125 because gradient is 0.25 large
           c(ymin+3.5+legvoffset),
-          circle = c(sqrt(1/pi))*scale, # gives the ratius in fonction of enrichment. 
+          circle = c(sqrt(1/pi))*scale, 
           inches=FALSE,
           fg="white",
           bg = "black",
