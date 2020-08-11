@@ -1,10 +1,7 @@
 source('plotGODESeq.R')
 
-# Load results from DESeq2
-deseq_data <- read.table("DESeq-example.csv", sep=",",fill=T,header=T,row.names=1)
-
 # load results from WebGestalt
-goenrich_data <- read.table("GO-example.csv", sep="\t",fill=T,quote="\"",header=T)
+goenrich_data <- read.table("GO-example2.csv",sep="\t",fill=T,quote="\"",header=T)
 
 # rename the columns to make them less weird and compatible with the GOPlot package
 colnames(goenrich_data)[colnames(goenrich_data) %in% c("geneset","R","OverlapGene_UserID")] <- c("ID","Enrich","genes")
@@ -12,21 +9,26 @@ colnames(goenrich_data)[colnames(goenrich_data) %in% c("geneset","R","OverlapGen
 # remove commas from descriptions, because they suck
 goenrich_data$description <- gsub(',',"",goenrich_data$description)
 
+# Load results from DESeq2
+deseq_data <- read.table("DESeq-example2.csv", sep=",",fill=T,header=T,row.names=1)
+
+
 plotGODESeq(goenrich_data,
             deseq_data,
-            maxFDR = 1e-8,
-            collapse = 0.9,
+            maxFDR = 0.05,
+            collapse = 1,
             color="l2fc",
-            lowCol = "darkcyan",
-            midCol = "yellow",
-            highCol = "darkred",
-            extrawidth=1,
-            centered=0.5,
+            lowCol = "deepskyblue4",
+            midCol = "#DDDDDD",
+            highCol = "firebrick",
+            extrawidth=3,
+            centered=FALSE,
+            fixed_ymax = 10,
             leghoffset=-0.5,
-            legvoffset=1,
+            legvoffset=1.5,
             label = "description",
-            scale = 0.8,
+            scale = 0.7,
             maxFDRLab = 1e-12,
-            minZscoreLab = 2,
+            minZscoreLab = 2.5,
             wrap = 15
             )

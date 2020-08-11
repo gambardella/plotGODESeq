@@ -16,6 +16,7 @@ plotGODESeq(goenrich_data,
             highCol = "#FF0000",
             extrawidth=1,
             centered=FALSE,
+            fixed_ymax=-1,
             leghoffset=-0.5,
             legvoffset=1,
             label = "description",
@@ -74,6 +75,9 @@ Width added to the horizontal axis, on the left of min(zscore) and right of max(
 
 ### *centered*
 If set to TRUE, the X axis will be centered on a zscore of 0. If FALSE, the X axis is chosen to balance the distribution of bubbles. **Default is FALSE**.  
+
+### *fixed_ymax*
+If given a positive value, this fix the maximal value of the Y axis to this value instead of -log10(FDR). **Default is "-1"**.
 
 ### *leghoffset*
 Value added to the horizontal position of the legend. **Default is "0"**. 

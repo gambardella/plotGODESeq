@@ -34,6 +34,7 @@ plotGODESeq <- function(goenrich,
                         minZscoreLab,
                         extrawidth,
                         centered,
+                        fixed_ymax,
                         leghoffset,
                         legvoffset,
                         wrap){
@@ -179,6 +180,11 @@ if( missing(extrawidth) ){ extrawidth = 1 }
 # Boolean
 if ( missing(centered) ){ centered = FALSE }
 
+###
+# centered: decides if the plot is symmetrical  
+# Boolean
+if ( missing(fixed_ymax) ){ fixed_ymax = -1 }
+  
 ### 
 # value added to the horizontal position of the legend 
 # numeric  
@@ -401,9 +407,14 @@ if ( missing(wrap) ){ wrap = 15 }
       } else {
   xmin = min(enrich_red$zscore) - extrawidth
   xmax = max(enrich_red$zscore) + extrawidth
-}
+      }
   ymin = min(-log10(enrich_red$adj_pval)) - 0.5
-  ymax = max(-log10(enrich_red$adj_pval)) + 0.5
+  if(fixed_ymax != -1){
+    cat("Manual ymax entered: ",fixed_ymax,"\n")
+    ymax = fixed_ymax
+  } else {
+    ymax = max(-log10(enrich_red$adj_pval)) + 0.5
+  }
   
   ###### Plot!
   
