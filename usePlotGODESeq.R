@@ -3,7 +3,10 @@ source('plotGODESeq.R')
 # load results from WebGestalt
 goenrich_data <- read.table("GO-example2.csv",sep="\t",fill=T,quote="\"",header=T)
 
-# rename the columns to make them less weird and compatible with the GOPlot package
+# rename the columns to make them less weird and compatible with the GOPlot package.
+# ID is the GO ID, like GO:0001234
+# Enrich is the enrichment ratio 
+# genes is the list of genes contributing to this term enrichment, separated by semi-columns
 colnames(goenrich_data)[colnames(goenrich_data) %in% c("geneset","R","OverlapGene_UserID")] <- c("ID","Enrich","genes")
 
 # remove commas from descriptions, because they suck
